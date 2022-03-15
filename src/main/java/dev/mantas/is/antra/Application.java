@@ -5,6 +5,11 @@ import org.apache.commons.codec.binary.Hex;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.OpenOption;
+import java.nio.file.StandardOpenOption;
 import java.security.SecureRandom;
 import java.util.Vector;
 
@@ -201,6 +206,36 @@ public class Application {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
             return;
+        }
+
+        if (input_.startsWith("$")) {
+            if (encrypt) {
+                String[] split = input_.split("\n", 2);
+                String path = split[0].substring(1);
+                String data = split[1];
+
+                File outputFile = new File(path);
+
+                try {
+                    String encrypted = helper.encrypt(data);
+                    Files.write(outputFile.toPath(), encrypted.getBytes(StandardCharsets.UTF_8));
+                    textOutput.setText("File saved to " + outputFile.getAbsolutePath());
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+                }
+
+                return;
+            } else {
+                String path = input_.substring(1);
+                File inputFile = new File(path);
+
+                try {
+                    input_ = String.join("\n", Files.readAllLines(inputFile.toPath()));
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+                    return;
+                }
+            }
         }
 
         try {
