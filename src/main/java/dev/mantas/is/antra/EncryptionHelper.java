@@ -27,7 +27,7 @@ public class EncryptionHelper {
      * @throws Exception If an error occurs during initialization
      */
     public void init(String key, String mode, String iv) throws Exception {
-        this.cipher = Cipher.getInstance("DES/" + mode + "/NoPadding");
+        this.cipher = Cipher.getInstance("DES/" + mode + "/PKCS5Padding");
         this.key = new SecretKeySpec(Hex.decodeHex(key), "DES");
 
         if (!"ECB".equals(mode)) {
