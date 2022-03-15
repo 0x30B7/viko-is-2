@@ -169,6 +169,12 @@ public class Application {
         frame.setVisible(true);
     }
 
+    /**
+     * Performs an encryption/decryption operation with the collected
+     * parameters from the UI
+     *
+     * @param encrypt {@code true} if the operation should be encryption
+     */
     private void doCryptOperation(boolean encrypt) {
         EncryptionHelper helper = new EncryptionHelper();
 
@@ -204,6 +210,13 @@ public class Application {
         }
     }
 
+    /**
+     * Generates a random sequence of bytes, encodes them as a
+     * hex string and places them in a target UI component
+     *
+     * @param target The target UI component
+     * @param length The length of the sequence, in bytes
+     */
     private void generateKey(JTextArea target, int length) {
         byte[] key = new byte[length];
 
